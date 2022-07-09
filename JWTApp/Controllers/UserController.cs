@@ -12,12 +12,29 @@ namespace JWTApp.Controllers
     {
 
         [HttpGet("Admins")]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public IActionResult AdminsEndpoint()
         {
             var currentUser = GetCurrentUser();
             return Ok($"Hello {currentUser.GivenName}, You are an {currentUser.Role}");
         }
+
+        [HttpGet("guest")]
+        [Authorize(Roles = "Guest")]
+        public IActionResult GuestEndPoint()
+        {
+            var currentUser = GetCurrentUser();
+            return Ok($"Hello {currentUser.GivenName}, You are an {currentUser.Role}");
+        }
+
+        [HttpGet("both")]
+        [Authorize(Roles = "Guest, Administrator")]
+        public IActionResult BothEndPoint()
+        {
+            var currentUser = GetCurrentUser();
+            return Ok($"Hello {currentUser.GivenName}, You are an {currentUser.Role}");
+        }
+
         [HttpGet("Public")]
         public IActionResult Public()
         {
